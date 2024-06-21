@@ -6,7 +6,7 @@
 # outfile: output file name
 # Returns: 
 # Hit sequences as a vector of characters
-retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile) {
+retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile, cut_seq = TRUE) {
   
   # Initialize a character vector to store the output
   output_lines <- character()
@@ -28,17 +28,36 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, outfile) {
       wait = TRUE
     )
     
+    sequence_lines <- hit_sequence[-1]  # Skip the first line (header)
+    full_sequence <- paste(sequence_lines, collapse = "")
+    
+    if(cut_seq == TRUE){
+    
+    # Extract the start and end positions from query_results
+    sstart <- query_results$sstart[1]
+    send <- query_results$send[1]
+    cut_seqs <- substr(full_sequence, sstart, send)
+    
     # Append query ID and hit sequence ID to output_lines
-    output_lines <- c(output_lines, paste(query_id, hitSeq, sep = "__"))
+    output_lines <- c(output_lines, paste(">", hitSeq, "__queryID:", query_id, "_sstart:", sstart, "_send:", send, sep = ""))
     
     # Append hit sequence to output_lines
-    output_lines <- c(output_lines, hit_sequence)
+    output_lines <- c(output_lines, cut_seqs)
+    }
+    
+    else{
+    # Append query ID and hit sequence ID to output_lines
+    output_lines <- c(output_lines, paste(">", hitSeq, "__queryID:", query_id, sep = ""))
+    
+    # Append hit sequence to output_lines
+    output_lines <- c(output_lines, full_sequence)
     
   }
-  
+  }
   # Write output_lines to a text file
   writeLines(output_lines, con = outfile)
   
   # Return the output lines
   return(output_lines)
 }
+
