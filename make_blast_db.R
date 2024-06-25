@@ -47,3 +47,4 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NUL
   return(msg)
 }
 
+
