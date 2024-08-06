@@ -89,6 +89,12 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1,
     filenames_list[[length(filenames_list) + 1]] <- filename
   }
   
+  time <- time_func()
+  Directory_check()
+  results_list <- list(data_table = NULL, plot_table = NULL, message = NULL, output_files = filenames_list)
+  reporter_function(function_call_sig, results_list, time[[2]]);
+  
+  
   # Return the output lines (optional, if needed for further processing)
   return(output_all)
 }
