@@ -1,6 +1,9 @@
 #a function that generates a Sankey plot summarizing categorical 
 #information based on taxonomic identifiers from blast search data frames in R
+
+
 summerize_bl <- function(df1, df2, id_col, summarize_cols) {
+  function_call_sig <- match.call()
   # Merge the data frames on ID
   merged_df <- df2 %>%
     left_join(df1, by = c("staxids" = id_col))
@@ -48,5 +51,14 @@ summerize_bl <- function(df1, df2, id_col, summarize_cols) {
                 Source = "source", Target = "target",
                 Value = "pct", NodeID = "name",
                 sinksRight = TRUE)
+
+ time <- time_func()
+ Directory_check()
+ html_outputs_path <- paste0("outputs/html/",time[[1]],"_plot.html")
+ results_list <- list(data_table = NULL, plot_table = html_outputs_path, message = NULL, output_files = NULL)
+ reporter_function(function_call_sig, results_list, time[[2]]);
+ saveWidget(plot, file = html_outputs_path)
+ 
  return(plot)
 }
+
