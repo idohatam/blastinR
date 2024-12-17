@@ -10,7 +10,7 @@
 # Returns:
 # a message confirming the success of data base formation 
 # or an error message if data base formation was not successful 
-make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NULL, taxids_file = NULL) {
+make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NULL, taxids_file = NULL, report = TRUE) {
   # Check if output file name is provided
   function_call_sig <- match.call()
   if (!file.exists(infile))
@@ -49,13 +49,13 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NUL
     msg <- c(msg, "Blast database successfully created.", paste("Outfile name:", outfile))
   }
   
+  if(report == TRUE){
   time <- time_func()
   results_list <- list(data_table = NULL, plot_table = NULL, message = msg, output_files = NULL)
   reporter_function(function_call_sig, results_list, time[[2]]);
-  
+  }
   # Return the message
   return(msg)
   }
 }
-
 
