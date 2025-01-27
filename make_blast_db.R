@@ -13,6 +13,12 @@
 make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NULL, taxids_file = NULL) {
 
   # Check if output file name is provided
+  function_call_sig <- match.call()
+  if (!file.exists(infile))
+  {
+    stop(paste("Can't find the file, check the file path or name and try again!"))
+  }
+  else{
   if (is.null(outfile)) {
     outfile <- gsub("\\.[^.]*$", "", infile)
   }
@@ -44,8 +50,13 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NUL
     msg <- c(msg, "Blast database successfully created.", paste("Outfile name:", outfile))
   }
   
+  time <- time_func()
+  results_list <- list(data_table = NULL, plot_table = NULL, message = msg, output_files = NULL)
+  reporter_function(function_call_sig, results_list, time[[2]]);
+  
   # Return the message
   return(msg)
+  }
 }
 
 
