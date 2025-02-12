@@ -59,3 +59,26 @@ blst<- function(btype = "blastn", dbase,qry, taxid = FALSE,report = TRUE, numt=1
   # Return BLAST output
   return(bl_out)
 }
+
+seqid_1 <- blstinr(dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\DNA", 
+                   qry = "C:\\Users\\sarah\\OneDrive\\Documents\\ArchQuery.fa", taxid = TRUE)
+
+seqid_1
+
+seqid_2 <- blstinr(dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\DNA", 
+                   qry = "C:\\Users\\sarah\\OneDrive\\Documents\\ArchQuery.fa")
+
+seqid_2
+
+prot_No_ids <- blstinr(btype = "blastx", dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\prot", 
+                       qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\genomes_seqs_SARS.fasta")
+
+prot_No_ids
+
+prot_ids <- blstinr(btype = "blastx", dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\prot", 
+                    qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\genomes_seqs_SARS.fasta",taxid = TRUE)
+prot_ids
+
+prot_ids_negative <- blstinr(btype = "blastx", dbase = "C:\\Users\\sarah\\OneDrive\\Documents\\prot", 
+                             qry = "C:\\Users\\sarah\\OneDrive\\Documents\\blastinR\\genomes_seqs_SARS.fasta",taxid = TRUE)
+prot_ids_negative
