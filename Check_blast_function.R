@@ -23,5 +23,3 @@ check_blast <- function(blpath = "makeblastdb")
     return(TRUE)}
   }
 }
-
-

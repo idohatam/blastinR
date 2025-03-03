@@ -114,5 +114,3 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1,
   # Return the output lines (optional, if needed for further processing)
   return(output_all)
 }
-
- 

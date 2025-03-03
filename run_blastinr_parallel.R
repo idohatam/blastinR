@@ -26,6 +26,7 @@ if (!require(doParallel)) {
 # A dataframe with the query results
 blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, ncores = 2, numt = 1, ...) {
   
+  function_call_sig <- match.call()
   if (ncores == 1){
     results <- blst(btype = btype, dbase = dbase, qry = qry, taxid = taxid, report = report, numt = numt, ...)
   }
@@ -67,11 +68,19 @@ blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, n
     
     # Run the blstinr function in parallel using foreach
     results <- foreach(chunk = chunks, .combine = rbind, .packages = c("dplyr", "tidyr", "uuid", "data.table", "ggplot2", "DT", "knitr", "rmarkdown")) %dopar% {
-      blst(btype = btype, dbase = dbase, qry = chunk, taxid = taxid, report = report, numt = numt, ...)
+      blst(btype = btype, dbase = dbase, qry = chunk, taxid = taxid, report = FALSE, numt = numt, ...)
     }
    
     # Stop the cluster
     stopCluster(cl)
+  }
+  if(report == TRUE){
+    time <- time_func() 
+    Directory_check()
+    table_outputs_path <- paste0("outputs/table/",time[[1]],"_table.csv")  
+    write.table(results, file = table_outputs_path, sep = ",", row.names = FALSE, quote = TRUE)
+    results_list <- list(data_table = table_outputs_path, plot_table = NULL, message = NULL, output_files = NULL)
+    reporter_function(function_call_sig, results_list, time[[2]])
   }
   
   return(results)
