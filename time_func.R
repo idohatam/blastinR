@@ -9,4 +9,3 @@ time_func <- function(){
   return(time_list)
 }
 
-time_func()
