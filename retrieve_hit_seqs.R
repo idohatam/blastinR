@@ -7,13 +7,16 @@
 # Returns: 
 # Hit sequences as a vector of characters
 
-retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1, outfile, cut_seq = TRUE, MultFiles = FALSE) {
+retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1, outfile, cut_seq = TRUE, MultFiles = FALSE, report = TRUE) {
   
   function_call_sig <- match.call()
   Directory_check()
   directory_path <- "outputs/hits/"
   
   filenames_list <- list()
+  
+  # Initialize a string for +/- sequences for the header of each hit
+  strOrientation <- "+"
   
   # Initialize a character vector to store the output
   output_lines <- character()
@@ -48,10 +51,22 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1,
         # Extract the start and end positions from query_results
         sstart <- query_results$sstart[i]
         send <- query_results$send[i]
-        cut_seqs <- substr(full_sequence, sstart, send)
+        
+        # +strand
+        if(sstart < send){
+          cut_seqs <- substr(full_sequence, sstart, send)
+        }
+        # -strand handling. Reverses the sequence within the range.
+        else{
+          
+          strOrientation <- "-"
+          cut_unreversed <- substr(full_sequence, send, sstart)
+          cut_seqs <- paste(rev(strsplit(cut_unreversed, NULL)[[1]]), collapse = "")
+        }
+    
         
         # Append query ID and hit sequence ID to output_lines
-        output_lines <- c(output_lines, paste(">", hitSeq, "__queryID:", query_id, "_sstart:", sstart, "_send:", send, sep = ""))
+        output_lines <- c(output_lines, paste(">", hitSeq, "__queryID:", query_id, "_sstart:", sstart, "_send:", send, "_Orientation:", strOrientation, sep = ""))
         
         # Append hit sequence to output_lines
         output_lines <- c(output_lines, cut_seqs)
@@ -89,13 +104,13 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1,
     filenames_list[[length(filenames_list) + 1]] <- filename
   }
   
+  if(report == TRUE){
   time <- time_func()
   Directory_check()
   results_list <- list(data_table = NULL, plot_table = NULL, message = NULL, output_files = filenames_list)
   reporter_function(function_call_sig, results_list, time[[2]]);
-  
+  }
   
   # Return the output lines (optional, if needed for further processing)
   return(output_all)
 }
-
