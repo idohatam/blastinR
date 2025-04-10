@@ -20,6 +20,9 @@ if (!require(doParallel)) {
 # btype: blast type
 # dbase: blast database file path/name
 # qry: a fasta file with sequences to be queried
+# taxid: Boolean value, default is FALSE and assumes no ids were added to the database during make blast database, 
+#        if TRUE is passed it would add a column in the dataframe to show the added ids 
+# report` default parameter is TRUE. Creates a report or adds to an existing report.
 # ncores: number of cores/threads to be used
 # numt: (to be filled in)
 # Returns: 

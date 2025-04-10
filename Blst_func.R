@@ -3,6 +3,8 @@
 # btype: a string of the blast search, default is blastn
 # dbase: a string of blast data base file name/path
 # qry: a file of the query sequence
+# taxid: Boolean value, default is FALSE and assumes no ids were added to the database during make blast database, 
+#        if TRUE is passed it would add a column in the dataframe to show the added ids 
 # Returns:
 # a data frame of the blast search 
 blst<- function(btype = "blastn", dbase,qry, taxid = FALSE, numt=1,...){
@@ -51,5 +53,3 @@ blst<- function(btype = "blastn", dbase,qry, taxid = FALSE, numt=1,...){
   # Return BLAST output
   return(bl_out)
 }
-
-

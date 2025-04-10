@@ -289,3 +289,4 @@ Running the code below will delete the html file, and reset the report history.
 ```r
 delete_report()
 ```
+

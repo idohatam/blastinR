@@ -8,4 +8,3 @@ time_func <- function(){
   time_list[[length(time_list)+1]] <- entry_time
   return(time_list)
 }
-

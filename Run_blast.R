@@ -1,4 +1,31 @@
-# Pipeline to run blast search, retrieve hit sequences and then add metadata and summarize them
+# a function of Pipeline to run blast search, retrieve hit sequences and then add metadata and summarize them
+# Parameters:
+# infile: input file name containing sequences, if not provided, 
+#         a file dialog box is formed to allow the user to select an input file
+# dbtype: a string of data base type, default is nucl
+# database_outfile: output file name, if not provided the function removes .fa .fasta or .txt 
+#          from the input file and uses it for the output name for blast database creation. 
+# taxids_file: a taxonomy information file, expected text file,
+#        if added the function uses it to add these information when forming the data base
+# btype: a string of the blast search, default is blastn
+# qry: a fasta file with sequences to be queried
+# taxid: Boolean value, default is FALSE and assumes no ids were added to the database during make blast database, 
+#        if TRUE is passed it would add a column in the dataframe to show the added ids 
+# ncores: number of cores/threads to be used
+# query_ids: a vector of query IDs
+# NumHitseqs: Integer value, the number of hit sequences to be retrieved for each 
+#             query id passed, default is 1.
+# retrievSeqs_outfile: output file name for the hit sequences
+# cut_seq: Boolean value, default is TRUE and cuts the hit sequences from start to end of the match.
+#          if FALSE is passed, it'll retrieve the full hit sequence.
+# MultFiles: Boolean value, default is FALSE and outputs all the hit sequences for all query ids in one output file. 
+#            If TRUE is passed, the function will create one file for each query id's hit sequences.
+# df1: The dataframe that has the added metadata. 
+# id_col: A string containing the column name of the ID to merge dataframes with.
+# summarize_cols: A vector that contains the names of the columns to summarize.
+# reporting: default parameter is TRUE. Creates a report or adds to an existing report.
+# Returns:
+# a data frame of the blast search 
 
 
 Run_Blast <- function(infile = file.choose(), dbtype = "nucl", database_outfile = NULL, 

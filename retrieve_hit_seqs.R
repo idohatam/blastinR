@@ -3,7 +3,18 @@
 # query_ids: a vector of query IDs
 # blast_results: a data frame of blast search results
 # blastdb: blast database file path/name
+# NumHitseqs: Integer value, the number of hit sequences to be retrieved for each 
+#             query id passed, default is 1.
 # outfile: output file name
+# cut_seq: Boolean value, default is TRUE and cuts the hit sequences from start to end of the match.
+#          if FALSE is passed, it'll retrieve the full hit sequence.
+# MultFiles: Boolean value, default is FALSE and outputs all the hit sequences for all query ids in one output file. 
+#            If TRUE is passed, the function will create one file for each query id's hit sequences.
+# report` default parameter is TRUE. Creates a report or adds to an existing report.
+# pipeline: Boolean value, default is FALSE and allow hit sequences results to be returned as a vector of characters
+#         if TRUE is passed, the output file(s) name(s) that stored the hit sequences 
+#         will be returned instead of the hit sequences
+#         
 # Returns: 
 # Hit sequences as a vector of characters
 
@@ -120,4 +131,3 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1,
   # Return the output lines (optional, if needed for further processing)
   return(output_all)
 }
-

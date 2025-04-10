@@ -7,6 +7,7 @@
 #          from the input file and uses it for the output name 
 # taxids_file: a taxonomy information file, expected text file,
 #        if added the function uses it to add these information when forming the data base
+# report` default parameter is TRUE. Creates a report or adds to an existing report.
 # Returns:
 # a message confirming the success of data base formation 
 # or an error message if data base formation was not successful 
@@ -60,5 +61,3 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NUL
     return(msg)
   }
 }
-
-
