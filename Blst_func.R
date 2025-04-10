@@ -5,7 +5,7 @@
 # qry: a file of the query sequence
 # Returns:
 # a data frame of the blast search 
-blst<- function(btype = "blastn", dbase,qry, taxid = FALSE,report = TRUE, numt=1,...){
+blst<- function(btype = "blastn", dbase,qry, taxid = FALSE, numt=1,...){
   function_call_sig <- match.call()
   # Define the column names for the BLAST output
   colnames_a <- c("qseqid","sseqid","pident","length","mismatch","gapopen","qstart",
@@ -47,15 +47,8 @@ blst<- function(btype = "blastn", dbase,qry, taxid = FALSE,report = TRUE, numt=1
                convert = TRUE) %>% 
       mutate(Range = send - sstart)}} # add a new column, Range, which represents the length of the alignment    
   }
-  if(report == TRUE){
-  time <- time_func() 
-  Directory_check()
-  table_outputs_path <- paste0("outputs/table/",time[[1]],"_table.csv")  
-  write.table(bl_out, file = table_outputs_path, sep = ",", row.names = FALSE, quote = TRUE)
-  results_list <- list(data_table = table_outputs_path, plot_table = NULL, message = NULL, output_files = NULL)
-  reporter_function(function_call_sig, results_list, time[[2]])
-  }
   
   # Return BLAST output
   return(bl_out)
 }
+

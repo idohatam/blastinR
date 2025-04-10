@@ -1,13 +1,20 @@
-#a function that generates a Sankey plot summarizing categorical 
-#information based on taxonomic identifiers from blast search data frames in R
-
+# a function that generates a Sankey plot summarizing categorical 
+# information based on taxonomic identifiers from blast search data frames in R
+# Parameters:
+# df1: The dataframe that has the added metadata. 
+# df2: dataframe outputted from blastinr function.
+# id_col: A string containing the column name of the ID to merge dataframes with.
+# summarize_cols: A vector that contains the names of the columns to summarize.
+# report` default parameter is TRUE. Creates a report or adds to an existing report.
+# Returns: 
+# A Sankey plot
 
 ##install.packages("networkD3")
 
 library(dplyr)
 library(networkD3)
-library(ggplot2)
 library(htmlwidgets)
+
 
 summarize_bl <- function(df1, df2, id_col, summarize_cols, report = TRUE) {
   function_call_sig <- match.call()
@@ -71,6 +78,3 @@ summarize_bl <- function(df1, df2, id_col, summarize_cols, report = TRUE) {
  }
  return(plot)
 }
-
-
-

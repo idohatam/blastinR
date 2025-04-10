@@ -28,7 +28,7 @@ blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, n
   
   function_call_sig <- match.call()
   if (ncores == 1){
-    results <- blst(btype = btype, dbase = dbase, qry = qry, taxid = taxid, report = report, numt = numt, ...)
+    results <- blst(btype = btype, dbase = dbase, qry = qry, taxid = taxid, numt = numt, ...)
   }
   else{
     # Function to split fasta file into chunks
@@ -68,7 +68,7 @@ blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, n
     
     # Run the blstinr function in parallel using foreach
     results <- foreach(chunk = chunks, .combine = rbind, .packages = c("dplyr", "tidyr", "uuid", "data.table", "ggplot2", "DT", "knitr", "rmarkdown")) %dopar% {
-      blst(btype = btype, dbase = dbase, qry = chunk, taxid = taxid, report = FALSE, numt = numt, ...)
+      blst(btype = btype, dbase = dbase, qry = chunk, taxid = taxid, numt = numt, ...)
     }
    
     # Stop the cluster
