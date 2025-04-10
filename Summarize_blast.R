@@ -78,3 +78,4 @@ summarize_bl <- function(df1, df2, id_col, summarize_cols, report = TRUE) {
  }
  return(plot)
 }
+

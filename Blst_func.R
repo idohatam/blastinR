@@ -52,3 +52,4 @@ blst<- function(btype = "blastn", dbase,qry, taxid = FALSE, numt=1,...){
   return(bl_out)
 }
 
+

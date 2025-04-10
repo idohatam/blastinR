@@ -11,3 +11,4 @@ delete_report <- function(){
   file.remove("blast_history_report.Rmd", "blast_history_report.html")
 }
 
+

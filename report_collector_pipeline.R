@@ -144,3 +144,4 @@ reporter_function_pipeline <- function(function_call, data_list, entry_time){
   } 
   
 }
+
