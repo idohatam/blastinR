@@ -5,7 +5,7 @@
 # True if the path is found, throw an error if the path is not found
 
 
-check_blast <- function(blpath = "makeblastdb")
+check_blast_install <- function(blpath = "makeblastdb")
 {
   # Find the path to the BLAST executable
   bl <- Sys.which(paste(blpath))
