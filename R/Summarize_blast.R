@@ -9,13 +9,6 @@
 # Returns: 
 # A Sankey plot
 
-##install.packages("networkD3")
-
-library(dplyr)
-library(networkD3)
-library(htmlwidgets)
-
-
 summarize_bl <- function(df1, df2, id_col, summarize_cols, report = TRUE) {
   function_call_sig <- match.call()
   # Merge the data frames on ID

@@ -14,7 +14,7 @@ check_blast <- function(blpath = "makeblastdb")
   if(nchar(bl) == 0){
     # If BLAST executable path not found, throw an error
     stop(paste("Can't find blast on the computer or the path can't be found, 
-               make sure blast suite is properly installed"))
+               make sure blast+ is properly installed or that the path to it is specified"))
     }  
   # If BLAST executable path was found, print a message to confirm installation
   else

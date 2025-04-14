@@ -1,13 +1,3 @@
-library(uuid)
-library(data.table)
-
-library(ggplot2)
-
-library(DT)
-library(knitr)
-library(rmarkdown)
-
-
 # Creates an rmd file which acts as a scientific report, detailing the user's interaction with the program's pipeline function. 
 # NOTE* This funciton will be used specifically for the Run_blast.R, since it is the pipeline funciton.
 # Parameters:

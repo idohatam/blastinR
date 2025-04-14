@@ -1,14 +1,3 @@
-library(data.table)
-library(ggplot2)
-library(DT)
-library(knitr)
-library(rmarkdown)
-
-
-
-
-
-
 # Creates an rmd file which acts as a scientific report, detailing the user's interaction with the program's functions. 
 # NOTE* This function is NOT called by the pipeline.
 # Parameters:
