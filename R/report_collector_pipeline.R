@@ -8,11 +8,6 @@ library(knitr)
 library(rmarkdown)
 
 
-# creates labels for the R markdown chunks
-label_generator <- function(){
-  return(paste0(UUIDgenerate()))
-}
-
 # Creates an rmd file which acts as a scientific report, detailing the user's interaction with the program's pipeline function. 
 # NOTE* This funciton will be used specifically for the Run_blast.R, since it is the pipeline funciton.
 # Parameters:
