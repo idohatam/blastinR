@@ -28,7 +28,7 @@
 # a data frame of the blast search
 
 
-run_blast <- function(infile = file.choose(), dbtype = "nucl", database_outfile = NULL,
+blast_pipeline <- function(infile = file.choose(), dbtype = "nucl", database_outfile = NULL,
                       taxids_file = NULL, btype = "blastn", qry, taxid=FALSE, ncores = 2, query_ids,
                       NumHitseqs = 1, retrievSeqs_outfile, cut_seq = TRUE,
                       MultFiles = FALSE, df1, id_col, summarize_cols, reporting = TRUE, numt=1,...)
