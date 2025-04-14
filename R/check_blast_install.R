@@ -19,7 +19,7 @@ check_blast_install <- function(blpath = "makeblastdb")
   # If BLAST executable path was found, print a message to confirm installation
   else
     {if(nchar(bl)>0){
-    print("Blast is installed correctly and the path can be found.")
-    return(TRUE)}
+    msg <- paste("blast+ is installed correctly and the path to it is specified.")
+    return(msg)}
   }
 }
