@@ -1,6 +1,3 @@
-library(uuid)
-
-
 # creates labels for the R markdown chunks
 label_generator <- function(){
   return(paste0(UUIDgenerate()))
