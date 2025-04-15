@@ -1,4 +1,4 @@
-Directory_check <- function(){
+directory_check <- function(){
   # Define the base directory
   base_dir <- "outputs"
   
