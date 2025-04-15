@@ -1,11 +1,20 @@
 Package: blastinR
-Title: What the Package Does (One Line, Title Case)
+Title: blastinR: Connect BLAST+ to the R Environment
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(
+    person("Ido", "Hatam", , "ihatam@langara.ca", role = c("aut", "cre")),
+    person("Sarah", "Bowker", , "sarahbowker00@gmail.com", role = "aut"),
+    person("Sal", "Jahromi", , "sforoughijahro00@mylangara.ca", role = "aut")
+  )
+Description: blastinR is an R package that provides a user-friendly
+    interface to the BLAST+ suite. It allows users to run all flavors of
+    BLAST directly from R, import and analyze results, add functional
+    annotations, and generate HTML reports to support reproducible
+    workflows.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
+URL: https://github.com/idohatam/blastinR
+BugReports: https://github.com/idohatam/blastinR/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
