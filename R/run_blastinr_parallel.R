@@ -50,7 +50,7 @@ blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, n
     registerDoParallel(cl)
     
     # Export necessary objects to the cluster
-    clusterExport(cl, c("blst", "time_func", "Directory_check", "reporter_function", "fix_functionCall", "label_generator"))
+    clusterExport(cl, c("blst", "time_func", "directory_check", "reporter_function", "fix_functionCall", "label_generator"))
     
     # Run the blstinr function in parallel using foreach
     results <- foreach(chunk = chunks, .combine = rbind, .packages = c("dplyr", "tidyr", "uuid", "data.table", "ggplot2", "DT", "knitr", "rmarkdown")) %dopar% {
@@ -62,7 +62,7 @@ blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, n
   }
   if(report == TRUE){
     time <- time_func() 
-    Directory_check()
+    directory_check()
     table_outputs_path <- paste0("outputs/table/",time[[1]],"_table.csv")  
     write.table(results, file = table_outputs_path, sep = ",", row.names = FALSE, quote = TRUE)
     results_list <- list(data_table = table_outputs_path, plot_table = NULL, message = NULL, output_files = NULL)

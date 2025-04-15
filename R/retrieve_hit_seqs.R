@@ -21,7 +21,7 @@
 retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1, outfile, cut_seq = TRUE, MultFiles = FALSE, report = TRUE, pipeline = FALSE) {
   
   function_call_sig <- match.call()
-  Directory_check()
+  directory_check()
   directory_path <- "outputs/hits/"
   
   filenames_list <- list()
@@ -118,7 +118,7 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1,
 
   if(report == TRUE){
   time <- time_func()
-  Directory_check()
+  directory_check()
   results_list <- list(data_table = NULL, plot_table = NULL, message = NULL, output_files = filenames_list)
   reporter_function(function_call_sig, results_list, time[[2]]);
   }

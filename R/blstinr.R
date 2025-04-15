@@ -48,7 +48,7 @@ blstinr <- function(btype = "blastn", dbase,qry, taxid = FALSE,numt=1,...){
       mutate(Range = send - sstart)}} # add a new column, Range, which represents the length of the alignment    
   }
   time <- time_func() 
-  Directory_check()
+  directory_check()
   table_outputs_path <- paste0("outputs/table/",time[[1]],"_table.csv")  
   write.table(bl_out, file = table_outputs_path, sep = ",", row.names = FALSE, quote = TRUE)
   results_list <- list(data_table = table_outputs_path, plot_table = NULL, message = NULL, output_files = NULL)

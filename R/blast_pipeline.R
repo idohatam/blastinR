@@ -50,7 +50,7 @@ blast_pipeline <- function(infile = file.choose(), dbtype = "nucl", database_out
 
   if(reporting == TRUE){
     time <- time_func()
-    Directory_check()
+    directory_check()
 
     blst_search_df <- as.data.frame(blst_search)
     print(blst_search_df)

@@ -63,7 +63,7 @@ summarize_bl <- function(df1, df2, id_col, summarize_cols, report = TRUE) {
 
  if(report == TRUE){
  time <- time_func()
- Directory_check()
+ directory_check()
  html_outputs_path <- paste0("outputs/html/",time[[1]],"_plot.html")
  results_list <- list(data_table = NULL, plot_table = html_outputs_path, message = NULL, output_files = NULL)
  reporter_function(function_call_sig, results_list, time[[2]]);
