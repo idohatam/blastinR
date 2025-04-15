@@ -1,10 +1,36 @@
-#a function to run the different blast serches from within R
-# Parameters:
-# btype: a string of the blast search, default is blastn
-# dbase: a string of blast data base file name/path
-# qry: a file of the query sequence
-# Returns:
-# a data frame of the blast search 
+#' Run BLAST+ Searches from Within R
+#'
+#' This function allows users to run various BLAST+ search types (e.g., \code{blastn}, \code{blastp}) directly from R.
+#' It wraps a system call to the BLAST+ command-line tools and processes the output into a tidy tibble,
+#' optionally including taxonomic identifiers and saving the results to disk.
+#'
+#' @param btype Character string specifying the BLAST tool to use. Defaults to \code{"blastn"}.
+#' @param dbase Character string giving the path to the BLAST database.
+#' @param qry Character string giving the path to the query FASTA file.
+#' @param taxid Logical. If \code{TRUE}, includes taxonomic IDs in the output. Defaults to \code{FALSE}.
+#' @param numt Integer. Number of threads to use for BLAST. Defaults to \code{1}.
+#' @param ... Additional arguments passed to \code{system2()}, if needed.
+#'
+#' @return A tibble containing BLAST results, including columns for sequence identifiers, alignment metrics,
+#' and optionally taxonomic information. A CSV of the results is saved to \code{outputs/table/}.
+#'
+#' @details This function requires the BLAST+ suite to be installed and accessible via the system \code{PATH}.
+#' The output is parsed into a tibble and augmented with a column \code{Range} representing alignment length.
+#' Internal helper functions handle directory setup, timestamping, and report logging.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' blstinr(btype = "blastn", dbase = "nt", qry = "query.fasta")
+#' blstinr(btype = "blastp", dbase = "swissprot", qry = "protein.fasta", taxid = TRUE, numt = 4)
+#' }
+#'
+#' @importFrom magrittr %>%
+#' @importFrom tibble as_tibble
+#' @importFrom tidyr separate
+#' @importFrom dplyr mutate
+
 blstinr <- function(btype = "blastn", dbase,qry, taxid = FALSE,numt=1,...){
   function_call_sig <- match.call()
   # Define the column names for the BLAST output
