@@ -11,7 +11,8 @@
 # Returns:
 # a message confirming the success of data base formation 
 # or an error message if data base formation was not successful 
-make_blast_db <- function(infile = file.choose(), dbtype = "nucl", outfile = NULL, taxids_file = NULL, report = TRUE) {
+make_blast_db <- function(infile = file.choose(), dbtype = "nucl", 
+                          outfile = NULL, taxids_file = NULL, report = TRUE) {
   
   function_call_sig <- match.call()
   

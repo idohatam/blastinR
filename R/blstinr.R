@@ -51,7 +51,8 @@ blstinr <- function(btype = "blastn", dbase,qry, taxid = FALSE,numt=1,...){
   directory_check()
   table_outputs_path <- paste0("outputs/table/",time[[1]],"_table.csv")  
   write.table(bl_out, file = table_outputs_path, sep = ",", row.names = FALSE, quote = TRUE)
-  results_list <- list(data_table = table_outputs_path, plot_table = NULL, message = NULL, output_files = NULL)
+  results_list <- list(data_table = table_outputs_path, plot_table = NULL, 
+                       message = NULL, output_files = NULL)
   reporter_function(function_call_sig, results_list, time[[2]])
   
   # Return BLAST output

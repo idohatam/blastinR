@@ -18,7 +18,9 @@
 # Returns: 
 # Hit sequences as a vector of characters
 
-retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1, outfile, cut_seq = TRUE, MultFiles = FALSE, report = TRUE, pipeline = FALSE) {
+retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1, 
+                              outfile, cut_seq = TRUE, MultFiles = FALSE, 
+                              report = TRUE, pipeline = FALSE) {
   
   function_call_sig <- match.call()
   directory_check()
@@ -77,7 +79,10 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1,
     
         
         # Append query ID and hit sequence ID to output_lines
-        output_lines <- c(output_lines, paste(">", hitSeq, "__queryID:", query_id, "_sstart:", sstart, "_send:", send, "_Orientation:", strOrientation, sep = ""))
+        output_lines <- c(output_lines, paste(">", hitSeq, "__queryID:", 
+                                              query_id, "_sstart:", sstart, 
+                                              "_send:", send, "_Orientation:", 
+                                              strOrientation, sep = ""))
         
         # Append hit sequence to output_lines
         output_lines <- c(output_lines, cut_seqs)
@@ -119,7 +124,10 @@ retrieve_hit_seqs <- function(query_ids, blast_results, blastdb, NumHitseqs = 1,
   if(report == TRUE){
   time <- time_func()
   directory_check()
-  results_list <- list(data_table = NULL, plot_table = NULL, message = NULL, output_files = filenames_list)
+  
+  results_list <- list(data_table = NULL, plot_table = NULL, 
+                       message = NULL, output_files = filenames_list)
+  
   reporter_function(function_call_sig, results_list, time[[2]]);
   }
   

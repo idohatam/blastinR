@@ -27,7 +27,8 @@ summarize_bl <- function(df1, df2, id_col, summarize_cols, report = TRUE) {
   
   
   # Prepare nodes for Sankey plot
-  nodes <- data.frame(name = unique(c("All IDs", unlist(percentage_df[summarize_cols]))))
+  nodes <- data.frame(name = unique(c("All IDs", 
+                                      unlist(percentage_df[summarize_cols]))))
   
   # Define links
   links <- data.frame()
@@ -65,7 +66,8 @@ summarize_bl <- function(df1, df2, id_col, summarize_cols, report = TRUE) {
  time <- time_func()
  directory_check()
  html_outputs_path <- paste0("outputs/html/",time[[1]],"_plot.html")
- results_list <- list(data_table = NULL, plot_table = html_outputs_path, message = NULL, output_files = NULL)
+ results_list <- list(data_table = NULL, plot_table = html_outputs_path, 
+                      message = NULL, output_files = NULL)
  reporter_function(function_call_sig, results_list, time[[2]]);
  saveWidget(plot, file = html_outputs_path)
  }
