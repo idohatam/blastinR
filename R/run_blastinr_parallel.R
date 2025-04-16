@@ -10,11 +10,11 @@
 # numt: (to be filled in)
 # Returns: 
 # A dataframe with the query results
-blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, ncores = 2, numt = 1, ...) {
+parallel_blast <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, ncores = 2, numt = 1, ...) {
   
   function_call_sig <- match.call()
   if (ncores == 1){
-    results <- blst(btype = btype, dbase = dbase, qry = qry, taxid = taxid, numt = numt, ...)
+    results <- prll_blst_call(btype = btype, dbase = dbase, qry = qry, taxid = taxid, numt = numt, ...)
   }
   else{
     # Function to split fasta file into chunks
@@ -50,7 +50,7 @@ blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, n
     registerDoParallel(cl)
     
     # Export necessary objects to the cluster
-    clusterExport(cl, c("blst", "time_func", "directory_check", 
+    clusterExport(cl, c("prll_blst_call", "time_func", "directory_check", 
                         "reporter_function", "fix_functionCall", 
                         "label_generator"))
     
@@ -59,7 +59,7 @@ blstinr <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, n
                        .packages = c("dplyr", "tidyr", "uuid", 
                                      "data.table", "ggplot2", "DT", 
                                      "knitr", "rmarkdown")) %dopar% {
-      blst(btype = btype, dbase = dbase, qry = chunk, taxid = taxid, numt = numt, ...)
+      prll_blst_call(btype = btype, dbase = dbase, qry = chunk, taxid = taxid, numt = numt, ...)
     }
    
     # Stop the cluster
