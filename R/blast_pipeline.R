@@ -77,6 +77,6 @@ blast_pipeline <- function(infile = file.choose(), dbtype = "nucl",
     saveWidget(plot, file = html_outputs_path)
   }
   print(outfile_names_hit)
-  return(plot)
+  return(list(blast_results = blst_search, sankey_plot = plot)
 
 }
