@@ -1,16 +1,47 @@
-# a function to make blast data base given the fasta file from within R
-# Parameters:
-# infile: input file name containing sequences, if not provided, 
-#         a file dialog box is formed to allow the user to select an input file
-# dbtype: a string of data base type, default is nucl
-# outfile: output file name, if not provided the function removes .fa .fasta or .txt 
-#          from the input file and uses it for the output name 
-# taxids_file: a taxonomy information file, expected text file,
-#        if added the function uses it to add these information when forming the data base
-# report` default parameter is TRUE. Creates a report or adds to an existing report.
-# Returns:
-# a message confirming the success of data base formation 
-# or an error message if data base formation was not successful 
+#' Create a BLAST Database from a FASTA File
+#'
+#' This function wraps the BLAST+ `makeblastdb` command to create a BLAST database 
+#' from a FASTA-formatted input file. Optionally, taxonomy information can be added 
+#' using a tab-delimited taxonomy mapping file. A basic report can also be generated 
+#' for reproducibility.
+#'
+#' @param infile A character string specifying the input FASTA file path. 
+#'        If not provided, a file chooser dialog will open.
+#' @param dbtype A string specifying the type of database to create. 
+#'        Default is `"nucl"`; other option is `"prot"`.
+#' @param outfile A string specifying the base name for the output database files. 
+#'        If not supplied, the function will derive it from the input file name 
+#'        by removing `.fa`, `.fasta`, or `.txt`.
+#' @param taxids_file (Optional) A path to a taxonomy mapping file. 
+#'        The file should be tab-delimited with two columns: sequence ID and taxonomy ID, 
+#'        matching the format used by NCBI.
+#' @param report Logical, default `TRUE`. If `TRUE`, a report entry is added via internal logging.
+#'
+#' @return A character vector with a success message or any error messages encountered during database creation.
+#'
+#' @details This function assumes that the BLAST+ suite, specifically the `makeblastdb` 
+#'          executable, is correctly installed and available on the system PATH. 
+#'          You can check installation status using [check_blast_install()].
+#'
+#' @seealso [check_blast_install()], [blstinr()]
+#' 
+#' @export
+#' 
+#' #' @examples
+#' 
+#' \dontrun{
+#' # Example: Create a nucleotide BLAST database from a FASTA file
+#' make_blast_db(infile = "sequences.fasta", dbtype = "nucl", outfile = "my_blast_db")
+#'
+#' # Example with taxonomy mapping file
+#' make_blast_db(infile = "sequences.fasta",
+#'               dbtype = "nucl",
+#'               outfile = "my_blast_db",
+#'               taxids_file = "taxonomy_map.txt")
+#' }
+
+
+
 make_blast_db <- function(infile = file.choose(), dbtype = "nucl", 
                           outfile = NULL, taxids_file = NULL, report = TRUE) {
   
