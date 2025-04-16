@@ -8,7 +8,6 @@
 #'   \item A human-readable timestamp for logging in the R Markdown report.
 #' }
 #'
-#' @importFrom lubridate timestamp
 #' @keywords internal
 #' @noRd
 

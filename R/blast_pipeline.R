@@ -45,8 +45,6 @@
 #'   reporting = TRUE
 #' )
 #' }
-#' @importFrom utils readLines
-#' @importFrom stats cut
 #' @importFrom lubridate timestamp
 #' @export
 

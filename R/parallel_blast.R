@@ -33,12 +33,8 @@
 #'
 #' @importFrom foreach foreach %dopar%
 #' @importFrom doParallel registerDoParallel stopImplicitCluster
-#' @importFrom parallel makeCluster stopCluster clusterExport
-#' @importFrom utils write.table readLines
-#' @importFrom stats cut
+#' @importFrom parallel makeCluster stopCluster clusterExpor
 #' @importFrom dplyr bind_rows
-#' @importFrom utils readLines
-#' @importFrom stats cut
 #' @export
 
 parallel_blast <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, ncores = 2, numt = 1, ...) {
