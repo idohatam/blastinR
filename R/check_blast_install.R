@@ -1,10 +1,31 @@
-# a Function to check if BLAST is installed and the path is correct
-# Parameters: 
-# blpath: a string of command, default value is "makeblastdb"
-# Returns:
-# True if the path is found, throw an error if the path is not found
-
-
+#' Check if BLAST+ is Installed and Accessible
+#'
+#' This function checks whether the BLAST+ suite is installed and whether the specified command
+#' (e.g., \code{makeblastdb}) is available in the system's executable search path.
+#' It can be used interactively or internally to validate the environment.
+#'
+#' @param blpath A character string specifying the BLAST+ command to check.
+#' Defaults to \code{"makeblastdb"}.
+#'
+#' @return A character message confirming that BLAST+ is correctly installed and the path is set.
+#' Throws an error if the executable is not found.
+#'
+#' @details This function uses \code{Sys.which()} to search for the specified BLAST+ tool
+#' in the system's \code{PATH}. If the tool is not found, the function stops with an error
+#' message prompting the user to check their BLAST+ installation.
+#'
+#' Currently, only the system \code{PATH} is searched, but support for specifying custom paths
+#' may be added in future versions (e.g., for use with containers or virtual environments).
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' check_blast_install()
+#' check_blast_install("blastn")
+#' check_blast_install("blastp")
+#' }
+#' 
 check_blast_install <- function(blpath = "makeblastdb")
 {
   # Find the path to the BLAST executable
@@ -16,7 +37,7 @@ check_blast_install <- function(blpath = "makeblastdb")
     stop(paste("Can't find blast on the computer or the path can't be found, 
                make sure blast+ is properly installed or that the path to it is specified"))
     }  
-  # If BLAST executable path was found, print a message to confirm installation
+  # If BLAST executable path was found, returns a message to confirm installation
   else
     {if(nchar(bl)>0){
     msg <- paste("blast+ is installed correctly and the path to it is specified.")
