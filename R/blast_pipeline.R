@@ -45,7 +45,6 @@
 #'   reporting = TRUE
 #' )
 #' }
-#' @importFrom lubridate timestamp
 #' @export
 
 blast_pipeline <- function(infile = file.choose(), dbtype = "nucl", 

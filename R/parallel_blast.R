@@ -33,7 +33,7 @@
 #'
 #' @importFrom foreach foreach %dopar%
 #' @importFrom doParallel registerDoParallel stopImplicitCluster
-#' @importFrom parallel makeCluster stopCluster clusterExpor
+#' @importFrom parallel makeCluster stopCluster clusterExport
 #' @importFrom dplyr bind_rows
 #' @export
 
