@@ -1,13 +1,39 @@
-# a function that generates a Sankey plot summarizing categorical 
-# information based on taxonomic identifiers from blast search data frames in R
-# Parameters:
-# df1: The dataframe that has the added metadata. 
-# df2: dataframe outputted from blastinr function.
-# id_col: A string containing the column name of the ID to merge dataframes with.
-# summarize_cols: A vector that contains the names of the columns to summarize.
-# report` default parameter is TRUE. Creates a report or adds to an existing report.
-# Returns: 
-# A Sankey plot
+#' Summarize and Visualize BLAST+ Results with Metadata using a Sankey Plot
+#'
+#' This function merges functional or categorical metadata with BLAST+ results based on a shared taxonomic ID,
+#' summarizes the data across selected columns, and visualizes the summary as a Sankey plot. The function is
+#' useful for visualizing how BLAST hit sequences distribute across taxonomic or functional groups.
+#'
+#' Assumes the BLAST database used for the search contains a "taxonomy" table and that BLAST+ results (e.g. from `blstinr()`)
+#' include a `staxids` column. The metadata table should have one row per `tax_id` with any associated annotations.
+#'
+#' @param df1 A data frame of metadata with one row per taxonomic identifier (`tax_id`), including functional annotations.
+#' @param df2 A data frame of BLAST+ results, including a `staxids` column (e.g., the output from `blstinr()`).
+#' @param id_col A string giving the column name in `df1` that matches `df2$staxids`.
+#' @param summarize_cols A character vector of column names (from the metadata table) to group by and visualize in the Sankey plot.
+#' @param report Logical. If `TRUE` (default), saves the Sankey plot to an HTML report file and logs it.
+#'
+#' @return An interactive Sankey plot (`htmlwidget`).
+#' @export
+#'
+#' @importFrom dplyr left_join group_by summarise mutate select across bind_rows
+#' @importFrom tidyr everything
+#' @importFrom magrittr %>%
+#' @importFrom networkD3 sankeyNetwork
+#' @importFrom htmlwidgets saveWidget
+#'
+#' @examples
+#' \dontrun{
+#' # Assuming df2 is from blstinr() and df1 is a metadata table with "tax_id" and "Function"
+#' sankey_plot <- summarize_bl(
+#'   df1 = metadata_df,
+#'   df2 = blast_results_df,
+#'   id_col = "tax_id",
+#'   summarize_cols = c("Function")
+#' )
+#' print(sankey_plot)
+#' }
+
 
 summarize_bl <- function(df1, df2, id_col, summarize_cols, report = TRUE) {
   function_call_sig <- match.call()

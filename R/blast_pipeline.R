@@ -1,32 +1,52 @@
-# a function of Pipeline to run blast search, retrieve hit sequences and then add metadata and summarize them
-# Parameters:
-# infile: input file name containing sequences, if not provided,
-#         a file dialog box is formed to allow the user to select an input file
-# dbtype: a string of data base type, default is nucl
-# database_outfile: output file name, if not provided the function removes .fa .fasta or .txt
-#          from the input file and uses it for the output name for blast database creation.
-# taxids_file: a taxonomy information file, expected text file,
-#        if added the function uses it to add these information when forming the data base
-# btype: a string of the blast search, default is blastn
-# qry: a fasta file with sequences to be queried
-# taxid: Boolean value, default is FALSE and assumes no ids were added to the database during make blast database,
-#        if TRUE is passed it would add a column in the dataframe to show the added ids
-# ncores: number of cores/threads to be used
-# query_ids: a vector of query IDs
-# NumHitseqs: Integer value, the number of hit sequences to be retrieved for each
-#             query id passed, default is 1.
-# retrievSeqs_outfile: output file name for the hit sequences
-# cut_seq: Boolean value, default is TRUE and cuts the hit sequences from start to end of the match.
-#          if FALSE is passed, it'll retrieve the full hit sequence.
-# MultFiles: Boolean value, default is FALSE and outputs all the hit sequences for all query ids in one output file.
-#            If TRUE is passed, the function will create one file for each query id's hit sequences.
-# df1: The dataframe that has the added metadata.
-# id_col: A string containing the column name of the ID to merge dataframes with.
-# summarize_cols: A vector that contains the names of the columns to summarize.
-# reporting: default parameter is TRUE. Creates a report or adds to an existing report.
-# Returns:
-# a data frame of the blast search
-
+#' Pipeline to Run BLAST Search, Retrieve Hits, Annotate, and Summarize
+#'
+#' This function wraps the entire BLAST workflow in one call: it creates a BLAST database,
+#' performs a BLAST search, retrieves hit sequences, overlays metadata, and generates
+#' a Sankey plot summarizing the results.
+#'
+#' @param infile Character. Path to the input file used to create the BLAST database. If not provided,
+#'   a file dialog box will open.
+#' @param dbtype Character. BLAST database type. Default is `"nucl"`.
+#' @param database_outfile Character. Optional. File name for the BLAST database. If not provided, the function
+#'   will derive a name by removing `.fa`, `.fasta`, or `.txt` from the input file name.
+#' @param taxids_file Character. Optional path to a taxonomy ID file to include when building the database.
+#' @param btype Character. BLAST search type (e.g., `"blastn"`, `"blastp"`). Default is `"blastn"`.
+#' @param qry Character. Path to the FASTA file of query sequences.
+#' @param taxid Logical. Whether taxonomy IDs were added during database creation. Default is `FALSE`.
+#' @param ncores Integer. Number of threads to use. Default is `2`.
+#' @param query_ids Character vector. Query sequence IDs for which to retrieve hit sequences.
+#' @param NumHitseqs Integer. Number of hit sequences to retrieve per query. Default is `1`.
+#' @param retrievSeqs_outfile Character. Output file name or prefix for retrieved hit sequences.
+#' @param cut_seq Logical. If `TRUE`, extract only aligned regions of hits. If `FALSE`, extract full sequences. Default is `TRUE`.
+#' @param MultFiles Logical. If `TRUE`, save hit sequences in separate files for each query ID. Default is `FALSE`.
+#' @param df1 Data frame. Metadata table containing additional information (e.g., functional annotation) keyed by taxonomy ID.
+#' @param id_col Character. Column name in `df1` that corresponds to the `tax_id` used in the BLAST database.
+#' @param summarize_cols Character vector. Names of the metadata columns to include in the Sankey plot.
+#' @param reporting Logical. If `TRUE`, saves a report including the BLAST results and Sankey plot. Default is `TRUE`.
+#' @param numt Integer. An optional argument passed to the BLAST wrapper (e.g., for number of top hits to keep). Default is `1`.
+#' @param ... Additional arguments passed to internal functions.
+#'
+#' @return A named list with two elements:
+#' \describe{
+#'   \item{blast_results}{A data frame of the parsed BLAST search results.}
+#'   \item{summary_plot}{An interactive Sankey plot summarizing metadata for BLAST hits.}
+#' }
+#'
+#' @export
+#' 
+#' #' @examples
+#' \dontrun{
+#' blast_pipeline(
+#'   infile = "data/sequences.fasta",
+#'   qry = "data/queries.fasta",
+#'   query_ids = c("query1", "query2"),
+#'   retrievSeqs_outfile = "outputs/hits",
+#'   df1 = read.csv("data/metadata.csv"),
+#'   id_col = "tax_id",
+#'   summarize_cols = c("Function", "Pathway"),
+#'   reporting = TRUE
+#' )
+#' }
 
 blast_pipeline <- function(infile = file.choose(), dbtype = "nucl", 
                            database_outfile = NULL,

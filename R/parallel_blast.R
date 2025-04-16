@@ -1,15 +1,44 @@
-# a function to run blastr in parallel given the number of cores or threads
-# Parameters: 
-# btype: blast type
-# dbase: blast database file path/name
-# qry: a fasta file with sequences to be queried
-# taxid: Boolean value, default is FALSE and assumes no ids were added to the database during make blast database, 
-#        if TRUE is passed it would add a column in the dataframe to show the added ids 
-# report` default parameter is TRUE. Creates a report or adds to an existing report.
-# ncores: number of cores/threads to be used
-# numt: (to be filled in)
-# Returns: 
-# A dataframe with the query results
+#' Run BLAST Searches in Parallel
+#'
+#' This function performs BLAST searches in parallel using the `foreach` and `doParallel` packages.
+#' It automatically splits the input query FASTA file into chunks, distributes them across the specified
+#' number of cores, and then combines the results. If only one core is specified, it runs a regular search
+#' using an internal wrapper.
+#'
+#' @param btype A string indicating the BLAST search type (e.g., `"blastn"`). Default is `"blastn"`.
+#' @param dbase The path to the BLAST database file to be used in the search.
+#' @param qry A FASTA file containing the query sequences.
+#' @param taxid Logical. If `TRUE`, assumes taxonomy IDs were added during database creation and appends them to results.
+#'              Default is `FALSE`.
+#' @param report Logical. If `TRUE` (default), a report is generated and saved in the `outputs/table/` directory.
+#' @param ncores Integer. Number of cores to use for parallel processing. Default is `2`.
+#' @param numt Integer. Passed to internal calls, typically corresponds to the number of threads for `blastn`. Default is `1`.
+#' @param ... Additional arguments passed to the internal BLAST wrapper function.
+#'
+#' @return A data frame with the combined BLAST search results from all cores.
+#'
+#' @examples
+#' \dontrun{
+#' # Run a parallel BLAST search with 4 cores
+#' parallel_blast(
+#'   btype = "blastn",
+#'   dbase = "my_database",
+#'   qry = "queries.fasta",
+#'   taxid = TRUE,
+#'   report = TRUE,
+#'   ncores = 4,
+#'   numt = 1
+#' )
+#' }
+#'
+#' @importFrom foreach foreach %dopar%
+#' @importFrom doParallel registerDoParallel stopImplicitCluster
+#' @importFrom parallel makeCluster stopCluster clusterExport
+#' @importFrom utils write.table readLines
+#' @importFrom stats cut
+#' @importFrom dplyr bind_rows
+#' @export
+
 parallel_blast <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, ncores = 2, numt = 1, ...) {
   
   function_call_sig <- match.call()
