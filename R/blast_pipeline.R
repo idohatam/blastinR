@@ -32,9 +32,7 @@
 #'   \item{summary_plot}{An interactive Sankey plot summarizing metadata for BLAST hits.}
 #' }
 #'
-#' @export
-#' 
-#' #' @examples
+#' @examples
 #' \dontrun{
 #' blast_pipeline(
 #'   infile = "data/sequences.fasta",
@@ -47,6 +45,10 @@
 #'   reporting = TRUE
 #' )
 #' }
+#' @importFrom utils readLines
+#' @importFrom stats cut
+#' @importFrom lubridate timestamp
+#' @export
 
 blast_pipeline <- function(infile = file.choose(), dbtype = "nucl", 
                            database_outfile = NULL,
