@@ -1,3 +1,18 @@
+#' Generate Timestamps for Internal Reporting
+#'
+#' Creates two formatted timestamps used internally for file naming and logging in the BLAST report.
+#'
+#' @return A list of two character strings:
+#' \itemize{
+#'   \item A timestamp for naming output files (`"YYYYMMDDHHMMSS"` format).
+#'   \item A human-readable timestamp for logging in the R Markdown report.
+#' }
+#'
+#' @keywords internal
+#' @noRd
+#'
+#' @importFrom lubridate timestamp
+
 time_func <- function(){
   
   time_list <- list()

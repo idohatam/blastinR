@@ -1,11 +1,27 @@
-# Creates an rmd file which acts as a scientific report, detailing the user's interaction with the program's functions. 
-# NOTE* This function is NOT called by the pipeline.
-# Parameters:
-# function_call:  an inputted function call with its parameters
-# data_list:  a list holding the data outputted from the function which calls this reporter function. Will usually hold file paths
-# entry_time: The execution time of the function which called the reporter function.
-# Returns:
-# RMD file: "blast_history_report.rmd"
+#' Generate an R Markdown report documenting function usage
+#'
+#' This internal function builds an R Markdown (`.Rmd`) file that logs function calls,
+#' outputs, and messages for various BLAST+ functions. It is used for creating a
+#' reproducible report of user interactions. This function is not used by the pipeline wrapper.
+#'
+#' @param function_call The raw `match.call()` of the calling function.
+#' @param data_list A named list containing output data, such as file paths, messages,
+#' tables (`data_table`), plots (`plot_table`), and file outputs (`output_files`).
+#' @param entry_time A timestamp or string indicating when the function was executed.
+#'
+#' @return None. A file called `"blast_history_report.rmd"` is created or appended to in the working directory.
+#'
+#' @details
+#' The report includes:
+#' - The function name and call.
+#' - An optional DT-rendered HTML table if `data_table` is provided.
+#' - Embedded plots (via `include_url`) if `plot_table` is provided.
+#' - A message block or output file list if available.
+#'
+#' This function uses internal helpers like `label_generator()`, `fix_functionCall()`, and `list_to_string()`.
+#'
+#' @noRd
+
 
 reporter_function <- function(function_call, data_list, entry_time){
   print(function_call)

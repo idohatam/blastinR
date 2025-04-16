@@ -1,12 +1,26 @@
-#an internal function that runs the different blast serches from within the pipeline function.
-# Parameters:
-# btype: a string of the blast search, default is blastn
-# dbase: a string of blast data base file name/path
-# qry: a file of the query sequence
-# taxid: Boolean value, default is FALSE and assumes no ids were added to the database during make blast database,
-#        if TRUE is passed it would add a column in the dataframe to show the added ids
-# Returns:
-# a data frame of the blast search
+#' Internal Parallel BLAST Call
+#'
+#' Helper function used within the `parallel_blast()` function to execute a BLAST search 
+#' on a given chunk of a query file. This function constructs and runs the appropriate 
+#' BLAST+ command using `system2()`, and processes the results into a tidy tibble.
+#'
+#' @param btype String indicating the BLAST search type. Default is `"blastn"`.
+#' @param dbase Path to the BLAST database.
+#' @param qry Path to the query FASTA file.
+#' @param taxid Logical. If `TRUE`, retrieves taxonomy IDs in the BLAST output. Default is `FALSE`.
+#' @param numt Integer indicating number of threads to use for the BLAST call. Default is 1.
+#' @param ... Additional arguments passed internally (currently unused).
+#'
+#' @return A tibble with the parsed BLAST output. If `taxid = TRUE`, includes a `staxids` column.
+#'
+#' @importFrom tibble as_tibble
+#' @importFrom tidyr separate
+#' @importFrom dplyr mutate
+#' @importFrom magrittr %>%
+#'
+#' @keywords internal
+#' @noRd
+
 prll_blst_call<- function(btype = "blastn", dbase,qry, taxid = FALSE, numt=1,...){
   function_call_sig <- match.call()
   # Define the column names for the BLAST output

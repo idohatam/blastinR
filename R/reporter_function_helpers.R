@@ -1,10 +1,27 @@
-# creates labels for the R markdown chunks
+#' Generate a unique label for R Markdown code chunks
+#'
+#' This internal helper function uses `UUIDgenerate()` from the **uuid** package to 
+#' create a unique label for use in dynamically generated R Markdown reports.
+#'
+#' @return A unique character string.
+#' @importFrom uuid UUIDgenerate
+#' @noRd
+
 label_generator <- function(){
   return(paste0(UUIDgenerate()))
 }
 
 
-# For conversion of the message list into a string, which will be neatly presented in the final report
+#' Convert a list of messages into a single HTML-friendly string
+#'
+#' This internal helper function takes a list of messages and converts it into
+#' a single formatted string suitable for R Markdown output, using `<br>` tags for line breaks.
+#'
+#' @param messageList A list of character strings to be concatenated.
+#'
+#' @return A single character string combining all messages with HTML line breaks.
+#' @noRd
+
 list_to_string <- function(messageList){
   str <- ""
   for(i in messageList){
@@ -17,8 +34,16 @@ list_to_string <- function(messageList){
   return(str)
 }
 
+#' Clean and format recorded function calls for R Markdown reporting
+#'
+#' This internal helper function takes a raw `match.call()` output and processes it
+#' into a clean, readable string suitable for inclusion in an R Markdown code chunk.
+#'
+#' @param function_call A function call object captured with `match.call()`.
+#'
+#' @return A cleaned-up character string of the function call.
+#' @noRd
 
-# Fixes issues with the function_call, making it clear and presentable in the final report as a code chunk
 fix_functionCall <- function(function_call) {
   function_call <- deparse(function_call)  # Convert to character string representation
   function_call <- paste(function_call, collapse = " ")  # correcting collapses

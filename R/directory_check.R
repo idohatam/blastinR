@@ -1,3 +1,12 @@
+#' Check and Create Output Directories
+#'
+#' This internal helper function ensures that the necessary output directories
+#' (`outputs/html`, `outputs/table`, `outputs/hits`) exist within the working
+#' directory. If any of them are missing, it creates them.
+#'
+#' @keywords internal
+#' @noRd
+
 directory_check <- function(){
   # Define the base directory
   base_dir <- "outputs"
