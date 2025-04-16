@@ -24,11 +24,9 @@
 #'          You can check installation status using [check_blast_install()].
 #'
 #' @seealso [check_blast_install()], [blstinr()]
+
 #' 
-#' @export
-#' 
-#' #' @examples
-#' 
+#' @examples
 #' \dontrun{
 #' # Example: Create a nucleotide BLAST database from a FASTA file
 #' make_blast_db(infile = "sequences.fasta", dbtype = "nucl", outfile = "my_blast_db")
@@ -39,6 +37,7 @@
 #'               outfile = "my_blast_db",
 #'               taxids_file = "taxonomy_map.txt")
 #' }
+#' @export
 
 
 
