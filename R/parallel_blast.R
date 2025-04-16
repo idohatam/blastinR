@@ -37,6 +37,8 @@
 #' @importFrom utils write.table readLines
 #' @importFrom stats cut
 #' @importFrom dplyr bind_rows
+#' @importFrom utils readLines
+#' @importFrom stats cut
 #' @export
 
 parallel_blast <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, ncores = 2, numt = 1, ...) {
