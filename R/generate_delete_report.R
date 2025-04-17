@@ -11,7 +11,7 @@
 #'
 #' @return No return value. An HTML file `blast_history_report.html` is created as a side effect.
 #' 
-#' #' @importFrom rmarkdown render
+#' @importFrom rmarkdown render
 #'
 #' @export
 #'
