@@ -8,8 +8,6 @@ generate_report()
 }
 \value{
 No return value. An HTML file \code{blast_history_report.html} is created as a side effect.
-
-#' @importFrom rmarkdown render
 }
 \description{
 Uses \code{rmarkdown::render()} to knit the \code{blast_history_report.Rmd} file into an HTML report.
