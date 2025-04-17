@@ -1,0 +1,9 @@
+Camel_MERS-CoV	11
+Bat_coronavirus	22
+Pangolin_coronavirus	33
+SARS-CoV-2_iso1	44
+SARS_CoV2_Wuhan-Hu	55
+SARS_CoV1_AS	66
+SARS_CoV1_E2	77
+MERS_coronavirus	88
+MERS_Betacoronavirus_England_1	99
