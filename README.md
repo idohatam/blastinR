@@ -222,7 +222,7 @@ SSQCVNLTTRTQLPPAYTNSSTRGVYYPDKVFRSSVLHLTQDLFLPFFSNVTWFHAIHVSGTNGIKRFDNPVLPFNDGVY
 
 `summerize_bl` allows to marge data frames with matadata such asGene Ontology (GO) with the blast results and summarize is in a neat samky plot.
 
-Let's create a faux metadata table with "gene ontology" information.
+Let's create a faux metadata table with "GO" information.
 ```r
 go_df2 <-  data.frame(
   ID = c(11, 22, 33, 44, 55, 66, 77, 88, 99, 14, 24, 34),
@@ -236,7 +236,9 @@ go_df2 <-  data.frame(
 Create a sankey plot summarizing the GO components that the input data is involved in. 
 
 ```r
-summarize_bl(go_df2, blast_output, id_col = "ID", summarize_cols = c("MolecularFunction", "BiologicalProcess","CellularComponent"), report = FALSE)
+summarize_bl(go_df2, blast_output, id_col = "ID", 
+    summarize_cols = c("MolecularFunction", "BiologicalProcess","CellularComponent"), 
+  report = FALSE)
 ```
 
 ![](Rplot01.png)
