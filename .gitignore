@@ -27,3 +27,4 @@
 *.pog
 outputs/
 blast_history_report.rmd
+blast_history_report.html
