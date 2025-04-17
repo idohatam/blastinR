@@ -25,3 +25,5 @@
 *.pjs
 *.psq
 *.pog
+outputs/
+blast_history_report.rmd
