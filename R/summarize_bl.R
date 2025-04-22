@@ -16,7 +16,7 @@
 #' @return An interactive Sankey plot (`htmlwidget`).
 #' @export
 #'
-#' @importFrom dplyr left_join group_by summarise mutate select across bind_rows
+#' @importFrom dplyr left_join group_by summarise mutate select across bind_rows n
 #' @importFrom tidyr everything
 #' @importFrom magrittr %>%
 #' @importFrom networkD3 sankeyNetwork
