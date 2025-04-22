@@ -5,50 +5,47 @@ blastinR streamlines local blast searches by connecting blast+ to the R and Rstu
 Furthermore, blastinR includes a pipeline function that automates all steps from search, to results importation, graphical representation and 
 annotation.
 The package builds on blast+ taxonomy option to add additional metadata to the database, such as functional annotation that could later be used to 
-annotate blast results. 
-Reproducibility and reporting 
-
-> The package requires [blast+](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) to be pre-installed. 
+annotate blast results. In addition, the package automatically logs each run, export blast and annotation results, and can output interactive html 
+reports, promoting reproducible research.
 
 
-**installation instructions:**
+## **Installation instructions:**
 
-To install the package, use the `install_github` function from the remotes package.
-
-```r
-install.packages("remotes")
-library("remotes")
-remotes::install_github("idohatam/blastinR")
-```
-
-Alternatively it can be done using the `install_github` function from the devtools package.
+To install the package, use the `install_github` function from the devtools package.
 
 ```r
 install.packages("devtools")
 library("devtools")
 devtools::install_github("idohatam/blastinR")
+library("blastinR")
 ```
 
-* [Functions](##Functions)
+### **Requirements**
 
-* [Manual](##Manual)
+* R 4.1 or later
 
+* [NCBI blast+](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) to be installed.
 
+You can use `check_blast_install()` to verify that blast+ tools are accessible from R:
 
-## **Functions**
+```r
+blastinR::check_blast_install()
+```
+
+## **Function list**
 
 The following is a documentation of functions included in this package. In order to view examples their usage, please refer to the manual section, where a detailed example of the workflow is provided. Most functions have to be run in a specific order, as the output of one is the input of another. 
 
 
 ### **make_blast_db**
 
-The `make_blast_db` function is a wrapper for the `makeblastdb` function from BLAST+.
+The `make_blast_db()` function is a wrapper for the `makeblastdb` function from BLAST+.
 It will generate all the files required for a BLAST database. 
 The `infile` argument should specify the path to a FASTA file containing all the sequences 
 to be included in the database. The `outfile` argument should specify the names of all the
 database files to be generated. All database files will carry the same name but will differ
 in extension. 
-* `dbtype` Default is nucl. The database type (prot, nucl)
+* `dbtype` Default is `nucl`. The database type (`prot`, `nucl`)
 * `taxid` The taxonomy information file. (txt file expected).
 
 ```{r mdb, eval=FALSE}
@@ -137,19 +134,18 @@ delete_report()
 ------------------------------------------------------------------------------------------------
 <br>
 
-## **Manual**
+## **Getting started**
 
-A basic workflow of the program is demonstrated below. For more information about the functions used and their parameters, refer to the function documentations above.
+Below is a basic workflow of using the blastinR package. The workflow uses included example data, and demonstrates the core features of the package.
+For more information about the functions used and their parameters, refer to the function documentations.
 
 
 ### **Building a local database**
 
 Begin by creating a local blast database using the `make_blastdb` function.
 The package comes with two example fasta files, one with AA sequences of spike proteins from various Coronaviruses and one with various genomes of 
-coronaviruses. In this example, we wspike proteins of different Coronavirus variants are used.
+Coronaviruses. In this example, spike proteins of different Coronavirus variants are used to generate an AA database.
 
-
-After obtaining the FASTA files that you wish to use as the database, use the make_blast_db function to create the database. 
 
 
 ```r
@@ -169,7 +165,7 @@ You should see the a similar output.
 
 ### **Running BLAST against the local database**
 
-Since the database is a protein database and the query file has nucleotide sequences, we will use blastx.
+Since the database is a protein database and the query contains nucleotide sequences, we will use `blastx`.
 
 ```r
 #Get the sequences of the genomes
@@ -243,6 +239,21 @@ summarize_bl(go_df2, blast_output, id_col = "ID",
 
 ![](Rplot01.png)
 
+### **Output structure**
+
+As you run blastinR functions they will automatically output results files, logs and reports to an outputs folder within your working directory with
+the following structure.
+
+outputs/
+├── hits/
+│   └── your_hits.fasta
+├── html/
+│   └── timestamp_your_log.html
+│   └── timestamp_plot_files/
+└── table/
+    └── timestamp_your_results.csv
+
+
 
 ### **Generate Report**
 
@@ -266,7 +277,24 @@ delete_report()
 It's possible to run through the entire process with the  
 
 ```r
-blast_pipeline(infile = "spike_protein_seqs_SARS.fasta", dbtype = "prot", taxids_file = "taxid_map_internalDS.txt", btype = "blastx",
+#get the spike protein fasta file, thetaxonomy table and genomes from the package data
+db_seqs <- system.file("extdata","corona_spike_aa.fa",package = "blastinR" )
+txid <- system.file("extdata","taxid.txt",package = "blastinR" )
+
+qry_seqs <- system.file("extdata","corona_viruses_genomes.fa",package = "blastinR" )
+
+#Again, lets make a "functionl anotation" table
+
+go_df2 <-  data.frame(
+  ID = c(11, 22, 33, 44, 55, 66, 77, 88, 99, 14, 24, 34),
+  MolecularFunction = c("Nucleic acid binding", "Nucleic acid binding", "Catalytic activity", "Oxidoreductase activity", "DNA binding", "DNA binding", "RNA binding", "Signal transducer activity", "DNA binding", "Signal transducer activity", "ATP binding", "Protein kinase activity"),
+  BiologicalProcess = c("Transcription", "Biological process", "Metabolic process", "Biochemical synthesis", "Translation", "Transcription", "Phosphorylation", "Signal transduction", "Biochemical synthesis", "Signal transduction", "Transport", "Phosphorylation"),
+  CellularComponent = c("Nucleus", "Cytosol", "Cytoplasm", "Mitochondrion", "Ribosome", "Nucleus", "Nucleolus", "Cytoplasm", "Nucleus", "Plasma membrane", "Cytoplasm", "Plasma membrane")
+)
+
+#Run the pipeline
+
+blast_pipeline(infile = bd_seqs, dbtype = "prot", taxids_file = txid, btype = "blastx",
           qry = "genomes_seqs_SARS.fasta",
           taxid = TRUE, ncores = 3, query_ids = c("Bat_coronavirus"), retrievSeqs_outfile = "prot_hit_OneFile", df1 = go_df2, id_col = "ID", summarize_cols = c("MolecularFunction", "BiologicalProcess","CellularComponent"))
 
