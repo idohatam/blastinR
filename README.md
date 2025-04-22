@@ -246,7 +246,7 @@ the following structure.
 
 outputs/                                                                                                                                                                                
 ├── hits/                                                                                                                                                                               
-│   └── your_hits.fasta                                                                                                                                                                 
+ │  └── your_hits.fasta                                                                                                                                                                
 ├── html/                                                                                                                                                                               
 │   └── timestamp_your_log.html                                                                                                                                                         
 │   └── timestamp_plot_files/                                                                                                                                                           
