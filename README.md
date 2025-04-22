@@ -244,7 +244,7 @@ summarize_bl(go_df2, blast_output, id_col = "ID",
 As you run blastinR functions they will automatically output results files, logs and reports to an outputs folder within your working directory with
 the following structure.
 
-outputs/
+outputs/\n
 ├── hits/
 │   └── your_hits.fasta
 ├── html/
