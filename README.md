@@ -245,12 +245,13 @@ As you run blastinR functions they will automatically output results files, logs
 the following structure.
 
 outputs/                                                                                                                                                                                
-├── hits/                                                                                                                                                                              │   └── your_hits.fasta                                                                                                                                                                
+├── hits/                                                                                                                                                                              
+│   └── your_hits.fasta                                                                                                                                                                
 ├── html/                                                                                                                                                                               
-│   └── timestamp_your_log.html                                                                                                                                                         
-│   └── timestamp_plot_files/                                                                                                                                                           
-└── table/                                                                                                                                                                              
-    └── timestamp_your_results.csv                                        
+ │     └── timestamp_your_log.html                                                                                                                                                      
+ │     └── timestamp_plot_files/                                                                                                                                                        
+ └── table/                                                                                                                                                                             
+       └── timestamp_your_results.csv                                        
 
 
 
