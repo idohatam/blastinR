@@ -11,12 +11,12 @@ reports, promoting reproducible research.
 
 ## **Installation instructions:**
 
-To install the package, use the `install_github` function from the devtools package.
+To install the package, use the `install_github` function from the remotes package.
 
 ```r
-install.packages("devtools")
-library("devtools")
-devtools::install_github("idohatam/blastinR")
+install.packages("remotes")
+library("remotes")
+remotes::install_github("idohatam/blastinR")
 library("blastinR")
 ```
 
