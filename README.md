@@ -22,7 +22,7 @@ library("blastinR")
 
 ### **Requirements**
 
-* R 4.1 or later
+* R 4.2 or later
 
 * [NCBI blast+](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) to be installed.
 
@@ -160,8 +160,12 @@ make_blast_db(infile = db_seqs,taxids_file = txid,dbtype = "prot")
 You should see the a similar output. 
 ```
 --- 2024-10-26 17:54:00.140211 ---
-[1] "Blast database successfully created."  "Outfile name: corona_spike_aa"
+[1] "Blast database successfully created."  "Outfile name: /path/to/corona_spike_aa"
 ```
+
+>By default the blastdb will be saved to the package folder.
+>You can specify the path and name of the blastdb using the outfile argument.
+
 
 ### **Running BLAST against the local database**
 
@@ -171,7 +175,7 @@ Since the database is a protein database and the query contains nucleotide seque
 #Get the sequences of the genomes
 qry_seqs <- system.file("extdata","corona_viruses_genomes.fa",package = "blastinR" )
 
-blast_output <- blstinr('blastx','corona_spike_aa','qry_seqs', taxid = TRUE)
+blast_output <- blstinr('blastx', "/path/to/corona_spike_aa", qry_seqs, taxid = TRUE)
 ```
 The output dataframe:
 
@@ -202,7 +206,7 @@ The output dataframe:
 qry_ids <- "Bat_coronavirus"
 
 retrieve_hit_seqs(query_ids = qry_ids, blast_results = blast_output, 
-blastdb = "spike_protein_seqs_SARS", NumHitseqs = 6, outfile = "prot_hit_OneFile", 
+blastdb = "corona_spike_aa", NumHitseqs = 6, outfile = "prot_hit_OneFile", 
 cut_seq = TRUE, MultFiles = FALSE, report = FALSE)
 ```
 
