@@ -1,6 +1,6 @@
 Package: blastinR
 Title: blastinR: Connect BLAST+ to the R Environment
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
     person("Ido", "Hatam", , "ihatam@langara.ca", role = c("aut", "cre")),
     person("Sarah", "Bowker", , "sarahbowker00@gmail.com", role = "aut"),
