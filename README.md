@@ -299,8 +299,8 @@ go_df2 <-  data.frame(
 
 #Run the pipeline
 
-blast_pipeline(infile = bd_seqs, dbtype = "prot", taxids_file = txid, btype = "blastx",
-          qry = "genomes_seqs_SARS.fasta",
+blast_pipeline(infile = db_seqs, dbtype = "prot", taxids_file = txid, btype = "blastx",
+          qry = qry_seqs,
           taxid = TRUE, ncores = 3, query_ids = c("Bat_coronavirus"), retrievSeqs_outfile = "prot_hit_OneFile", df1 = go_df2, id_col = "ID", summarize_cols = c("MolecularFunction", "BiologicalProcess","CellularComponent"))
 
 ```
