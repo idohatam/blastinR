@@ -257,7 +257,6 @@ outputs/
 │   └── timestamp_plot_files/
 └── table/
     └── timestamp_your_results.csv
-    
 ```
 
 ### **Generate Report**
