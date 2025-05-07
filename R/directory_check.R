@@ -6,7 +6,7 @@
 #' html stores the html report along with any figure that's generated
 #' table stores any table that is generated
 #' hits stores any exported fasta files with hits from blast searches
-#' db stores databse files outputed from blastdb
+#' db stores databases files outputted from makeblastdb
 #'
 #' @keywords internal
 #' @noRd
