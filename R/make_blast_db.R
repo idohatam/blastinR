@@ -46,15 +46,25 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl",
 
   function_call_sig <- match.call()
 
-  # Check if output file name is provided
-  if (!file.exists(infile))
-  {
-    stop(paste("Can't find the file, check the file path or name and try again!"))
+  # Check if input file exists, stop if not
+  if (!file.exists(infile)) {
+    stop("Can't find the file, check the file path or name and try again!")
   }
-  else{
-    if (is.null(outfile)) {
-      outfile <- gsub("\\.[^.]*$", "", infile)
-    }
+
+  # Create the blastdb directory if needed
+  if (!file.exists("blastdb")) {
+    dir.create("blastdb")
+  }
+
+  # Construct outfile path inside "blastdb" directory
+  if (is.null(outfile)) {
+    base_outfile <- gsub("\\.[^.]*$", "", basename(infile))
+  } else {
+    base_outfile <- gsub("\\.[^.]*$", "", basename(outfile))
+  }
+
+  outfile <- file.path("blastdb", base_outfile)
+
 
 
     # Form the command for makeblastdb to be passed to system2
@@ -91,5 +101,5 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl",
     }
     # Return the message
     return(msg)
-  }
 }
+
