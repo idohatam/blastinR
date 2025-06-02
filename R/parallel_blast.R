@@ -38,7 +38,7 @@
 #' @export
 
 parallel_blast <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = TRUE, ncores = 2, numt = 1, ...) {
-  
+
   function_call_sig <- match.call()
   if (ncores == 1){
     results <- prll_blst_call(btype = btype, dbase = dbase, qry = qry, taxid = taxid, numt = numt, ...)
@@ -52,57 +52,57 @@ parallel_blast <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = 
       headers <- grep("^>", fasta)
       # Split the headers into chunks
       chunks <- split(headers, cut(seq_along(headers), n, labels = FALSE))
-     
+
       # Create temporary files for each chunk
       temp_files <- lapply(1:length(chunks), function(i) {
         temp_file <- tempfile(fileext = ".fasta")
-        
+
         if (i == ncores) {
           idx <- length(fasta)
         } else {
           idx <- chunks[[i + 1]][1] - 1
         }
-        
+
         writeLines(fasta[chunks[[i]][1]:idx], temp_file)
         return(temp_file)
       })
       return(temp_files)
     }
-   
+
     # Split the fasta file
     chunks <- split_fasta(qry, ncores)
-    
+
     # Register the parallel backend
     cl <- makeCluster(ncores)
     registerDoParallel(cl)
-    
+
     # Export necessary objects to the cluster
-    clusterExport(cl, c("prll_blst_call", "time_func", "directory_check", 
-                        "reporter_function", "fix_functionCall", 
-                        "label_generator"))
-    
+    clusterExport(cl, c("prll_blst_call", "time_func", "directory_check",
+                        "reporter_function", "fix_functionCall",
+                        "label_generator","seq_type","blastdb_type"))
+
     # Run the blstinr function in parallel using foreach
-    results <- foreach(chunk = chunks, .combine = rbind, 
-                       .packages = c("dplyr", "tidyr", "uuid", 
-                                     "data.table", "ggplot2", "DT", 
+    results <- foreach(chunk = chunks, .combine = rbind,
+                       .packages = c("dplyr", "tidyr", "uuid",
+                                     "data.table", "ggplot2", "DT",
                                      "knitr", "rmarkdown")) %dopar% {
       prll_blst_call(btype = btype, dbase = dbase, qry = chunk, taxid = taxid, numt = numt, ...)
     }
-   
+
     # Stop the cluster
     stopCluster(cl)
   }
   if(report == TRUE){
-    time <- time_func() 
+    time <- time_func()
     directory_check()
-    table_outputs_path <- paste0("outputs/table/",time[[1]],"_table.csv")  
-    write.table(results, file = table_outputs_path, sep = ",", 
+    table_outputs_path <- paste0("outputs/table/",time[[1]],"_table.csv")
+    write.table(results, file = table_outputs_path, sep = ",",
                 row.names = FALSE, quote = TRUE)
-    
-    results_list <- list(data_table = table_outputs_path, plot_table = NULL, 
+
+    results_list <- list(data_table = table_outputs_path, plot_table = NULL,
                          message = NULL, output_files = NULL)
     reporter_function(function_call_sig, results_list, time[[2]])
   }
-  
+
   return(results)
 }

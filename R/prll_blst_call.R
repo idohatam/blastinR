@@ -1,7 +1,7 @@
 #' Internal Parallel BLAST Call
 #'
-#' Helper function used within the `parallel_blast()` function to execute a BLAST search 
-#' on a given chunk of a query file. This function constructs and runs the appropriate 
+#' Helper function used within the `parallel_blast()` function to execute a BLAST search
+#' on a given chunk of a query file. This function constructs and runs the appropriate
 #' BLAST+ command using `system2()`, and processes the results into a tidy tibble.
 #'
 #' @param btype String indicating the BLAST search type. Default is `"blastn"`.
@@ -27,6 +27,38 @@ prll_blst_call<- function(btype = "blastn", dbase,qry, taxid = FALSE, numt=1,...
   colnames_a <- c("qseqid","sseqid","pident","length","mismatch","gapopen","qstart",
                   "qend","sstart","send","evalue","bitscore")
   colnames_b <-c(colnames_a,"staxids")
+
+
+  # Check types
+  seqType <- seq_type(qry)
+  dbType <- blastdb_type(dbase)
+
+  if (dbType == "unknown") {
+    stop("Could not determine the sequence or database type. Check paths and formats.")
+  }
+
+  # Logic check for BLAST compatibility
+  valid_combos <- list(
+    blastn   = list(query = "nucl", db = "nucl"),
+    blastp   = list(query = "prot", db = "prot"),
+    blastx   = list(query = "nucl", db = "prot"),
+    tblastn  = list(query = "prot", db = "nucl"),
+    tblastx  = list(query = "nucl", db = "nucl")
+  )
+
+  expected <- valid_combos[[btype]]
+
+  if (is.null(expected)) {
+    stop("Unsupported btype: ", btype)
+  }
+
+  if (seqType != expected$query || dbType != expected$db) {
+    stop(paste0("Mismatch in sequence and database types for '", btype, "'. ",
+                "Query is '", seqType, "', but should be '", expected$query, "'. ",
+                "Database is '", dbType, "', but should be '", expected$db, "'."))
+  }
+
+
 
   # Check the path to the BLAST executable
   bt <- Sys.which(paste(btype))
