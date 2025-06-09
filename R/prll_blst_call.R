@@ -41,6 +41,7 @@ prll_blst_call<- function(btype = "blastn", dbase,qry, taxid = FALSE, numt=1,...
   valid_combos <- list(
     blastn   = list(query = "nucl", db = "nucl"),
     blastp   = list(query = "prot", db = "prot"),
+    psiblast = list(query = "prot", db = "prot"),
     blastx   = list(query = "nucl", db = "prot"),
     tblastn  = list(query = "prot", db = "nucl"),
     tblastx  = list(query = "nucl", db = "nucl")
@@ -54,8 +55,8 @@ prll_blst_call<- function(btype = "blastn", dbase,qry, taxid = FALSE, numt=1,...
 
   if (seqType != expected$query || dbType != expected$db) {
     stop(paste0("Mismatch in sequence and database types for '", btype, "'. ",
-                "Query is '", seqType, "', but should be '", expected$query, "'. ",
-                "Database is '", dbType, "', but should be '", expected$db, "'."))
+                "Query is '", seqType, "', should be '", expected$query, "'. ",
+                "Database is '", dbType, "', should be '", expected$db, "'."))
   }
 
 
