@@ -48,7 +48,17 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl",
 
   # Check if input file exists, stop if not
   if (!file.exists(infile)) {
-    stop("Can't find the file, check the file path or name and try again!")
+    stop("Can't find the input file, check the file path or name and try again!")
+  }
+
+  seqType <- seq_type(infile)
+  if(seqType != dbtype){
+    stop(paste0(
+      "Sequence type mismatch: input is '", seqType,
+      "', but database type is '", dbtype,
+      "'. Please check your input file or correct the 'dbtype' argument."
+    ))
+
   }
 
   # Create the blastdb directory if needed
@@ -56,15 +66,21 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl",
     dir.create("blastdb")
   }
 
-  # Construct outfile path inside "blastdb" directory
+  # Determine outfile path
   if (is.null(outfile)) {
     base_outfile <- gsub("\\.[^.]*$", "", basename(infile))
+    outfile <- file.path("blastdb", base_outfile)
   } else {
-    base_outfile <- gsub("\\.[^.]*$", "", basename(outfile))
+    out_dir <- dirname(outfile)
+    if (out_dir == "." || out_dir == "") {
+      base_outfile <- gsub("\\.[^.]*$", "", basename(outfile))
+      outfile <- file.path("blastdb", base_outfile)
+    } else {
+      if (!dir.exists(out_dir)) {
+        dir.create(out_dir, recursive = TRUE)
+      }
+    }
   }
-
-  outfile <- file.path("blastdb", base_outfile)
-
 
 
     # Form the command for makeblastdb to be passed to system2
@@ -102,4 +118,3 @@ make_blast_db <- function(infile = file.choose(), dbtype = "nucl",
     # Return the message
     return(msg)
 }
-
