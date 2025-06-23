@@ -99,7 +99,9 @@ parallel_blast <- function(btype = "blastn", dbase, qry, taxid = FALSE,report = 
     write.table(results, file = table_outputs_path, sep = ",",
                 row.names = FALSE, quote = TRUE)
 
-    results_list <- list(data_table = table_outputs_path, plot_table = NULL,
+    table_outputs_full_path <- normalizePath(table_outputs_path, winslash = "/", mustWork = FALSE)
+
+    results_list <- list(data_table = table_outputs_full_path, plot_table = NULL,
                          message = NULL, output_files = NULL)
     reporter_function(function_call_sig, results_list, time[[2]])
   }

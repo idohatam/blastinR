@@ -16,7 +16,7 @@ directory_check <- function(){
   base_dir <- "outputs"
 
   # List of sub-directories to create
-  subdirs <- c("html", "table", "hits","db")
+  subdirs <- c("table", "hits", "reports", "reports/figures")
 
   # Create base directory if it does not exist
   if (!file.exists(base_dir)) {
@@ -27,7 +27,7 @@ directory_check <- function(){
   for (subdir in subdirs) {
     subdir_path <- file.path(base_dir, subdir)
     if (!file.exists(subdir_path)) {
-      dir.create(subdir_path)
+      dir.create(subdir_path, recursive = TRUE)
     }
   }
 }

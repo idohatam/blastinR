@@ -23,9 +23,14 @@
 #' @noRd
 
 reporter_function_pipeline <- function(function_call, data_list, entry_time){
-  
+
+  print(function_call)
   function_call <- fix_functionCall(function_call)
-  rmd_file <- "blast_history_report.rmd" # name of rmd file
+  directory_check()
+  # Define the report directory and file path
+  report_dir <- file.path("outputs", "reports")
+  rmd_file <- file.path(report_dir, "blast_history_report.Rmd")
+
   if(!file.exists(rmd_file)){
     file.create(rmd_file)
     title <- c(
@@ -38,12 +43,12 @@ reporter_function_pipeline <- function(function_call, data_list, entry_time){
     writeLines(title, rmd_file)
   }
   rmd_content <- readLines(rmd_file)
-  
+
   rmd_content_time <- c(paste0("### ", entry_time))
   rmd_content_new <- c()
-  
-  
-  
+
+
+
   title <- c(
     paste0("#### **Function Name: blast_pipeline**"),
     paste0("#### Executing blast_pipeline pipeline function: \n"),
@@ -53,10 +58,10 @@ reporter_function_pipeline <- function(function_call, data_list, entry_time){
     paste0('\n'),
     paste0('<br>'),
     paste0('\n')
-    )
+  )
   rmd_content_new <- c(title)
-  
-  
+
+
   data_list$message <- gsub("\\\\", "/", data_list$message)
   if(!is.null(data_list$message)){
     make_db_content <- c(
@@ -66,12 +71,12 @@ reporter_function_pipeline <- function(function_call, data_list, entry_time){
       paste0('\n'),
       paste0('<br>'),
       paste0('\n')
-      
+
     )
     rmd_content_new <- c(rmd_content_new,make_db_content)
   }
-  
-  
+
+
   if(!is.null(data_list$data_table)){
     table_content_pipeline <- c(
       paste0("#### **Function Name: blstinr**"),
@@ -83,12 +88,12 @@ reporter_function_pipeline <- function(function_call, data_list, entry_time){
              "```"),
       paste0('\n'),
       paste0('<br>'),
-      paste0('\n')      
+      paste0('\n')
     )
     rmd_content_new <- c(rmd_content_new, table_content_pipeline);
   }
-  
-  
+
+
   #outputs list of files
   if(!is.null(data_list$output_files)){
     file_list <- list_to_string(data_list$output_files)
@@ -99,14 +104,14 @@ reporter_function_pipeline <- function(function_call, data_list, entry_time){
       paste0('\n'),
       paste0('<br>'),
       paste0('\n')
-      )
-    
+    )
+
     rmd_content_new <- c(rmd_content_new, retrieved_hit_seqs_pipeline);
   }
-  
-  
+
+
   if(!is.null(data_list$plot_table)){
-    
+
     plot_content<- c(
       paste0("#### **Function Name: summarize_bl**"),
       paste0("#### Summarizing the distribution of data based on added metadata: \n"),
@@ -118,30 +123,29 @@ reporter_function_pipeline <- function(function_call, data_list, entry_time){
       paste0('\n')
     )
     rmd_content_new <- c(rmd_content_new,plot_content)
-    
-    
+
+
   }
-  
-  
-  
+
+
+
   # check if the rmd file exists
   if (file.exists(rmd_file)) {
     # reads in what is already in the file
     rmd_content <- readLines(rmd_file)
-    
-    
+
+
     # combine the new content with the content that was already in the rmd file
     if(all(rmd_content_time %in% rmd_content)){
       update_content <- c(rmd_content, rmd_content_new)
     }
     else{
       update_content <- c(rmd_content, rmd_content_time, rmd_content_new)
-      
+
     }
-    
+
     # write in the new concatenation
     writeLines(update_content, rmd_file)
-    
-  } 
-  
+
+  }
 }
